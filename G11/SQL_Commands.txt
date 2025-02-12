@@ -1,0 +1,28 @@
+show databases; --- List all database
+
+use chitkara_ecomm; --- Enter in database; here chitkara_ecomm is database name
+
+show tables; --- display the list of tables in selected database
+
+desc master_product; --- Show structure of table
+
+
+
+insert into master_category 
+(
+cate_name, 
+cate_desc, 
+is_enable, 
+created_on, 
+created_by
+) 
+values
+(
+'Electronics', 
+'sample Description...', 
+'true', 
+'2025-02-12 12:08:01',
+'1'
+); --- Insert record in table
+
+select * from master_category; --- show inserted records in table
