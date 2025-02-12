@@ -1,0 +1,24 @@
+show databases;
+
+create database g30_ecomm;
+
+use g30_ecomm;
+
+----table creation from UI ----
+
+insert into master_category
+     (
+     cat_name,
+     cat_desc,
+     created_on,
+     created_by
+     )
+     values
+     (
+     'electronics',
+     'Dummy description of Electronics',
+     '2025-02-12 18:45:10',
+     '1'
+     );
+
+select * from master_category
