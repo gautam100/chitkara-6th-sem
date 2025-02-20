@@ -103,7 +103,9 @@ app.put("/api/category", (req, res) => {
     return res.status(400).json({ msg: "Mandatory field is missing." });
   }
   connection.query(
-    `UPDATE master_category SET cate_name = '${body.cate_name}', cate_desc= '${body.cate_desc}',  is_enable='${body.is_enable}', created_on='${body.created_on}', created_by='${body.created_by}' WHERE id = ${id}`,
+    `UPDATE master_category SET cate_name = '${body.cate_name}', cate_desc= '${body.cate_desc}',  
+    is_enable='${body.is_enable}', created_on='${body.created_on}', created_by='${body.created_by}' 
+    WHERE id = ${id}`,
     (error, rows) => {
       if(error) {
         return res.status(500).json({ msg: "Internal Server Error!" });
