@@ -1,0 +1,65 @@
+1) Write JS code to remove duplicate values from an array?
+
+2) Define the underlying Architecture of Node? 
+
+3) What is middleware? Write a function to explain middleware?
+
+4) What is Event Loop?
+
+5) What is spread and rest operator?
+
+6) How to Fetch and print out all keys from an object?
+
+7) What is Node Package Manager?
+
+8) What is the importance of package.json file?
+
+9) How we can create package.json through terminal?
+
+10) Why Global installation of Modules requires?
+
+11) Ques: What is the output of below code:
+	var a = function(){
+		console.log(a);
+		var a = 10;
+	}
+	console.log(a());
+	var b = function(){
+		console.log(a);
+		let a = 10;
+	}
+	console.log(b());
+
+12) What is the difference between var, let and const?
+
+13) What is callback function and higher order function?
+
+14) what is arrow function? Can you write the syntax of arrow function
+
+15) In any JS file I have two variables a and b. I want to use both these variable in any other js file, how can I do this?
+
+16) What is deep copy and shallow copy?
+
+17) What is prototype?
+
+18) What is worker in node.js?
+
+19) What is hoisting?
+
+20) What is closure?
+
+21) Write code to connect node.js with MySQL database?
+
+22) What is Http status code?
+
+23) Write code to count Duplicate elements from an array
+	let arr = ["one","two","three","one","two","one"];
+	let count = {};
+	arr.forEach((element)=>{
+		//The expression count[element] || 0 returns the value of count[element] if it is set, otherwise 0.
+		//Then just add one and set it again in the object.
+		count[element] = (count[element] || 0) + 1;
+	})
+
+24) What is 'in' and 'of' keyword in JS?
+
