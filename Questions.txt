@@ -63,3 +63,10 @@
 
 24) What is 'in' and 'of' keyword in JS?
 
+25) Explain below array functions
+	a) join()
+	b) split()
+	c) slice()
+	d) splice()
+	e) indexOf()
+	
