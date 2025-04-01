@@ -18,28 +18,32 @@ Step 1: Move connection.js into config folder
 
 Step 2: In models folder, create a file - categoryModel.js
 
-Step 3: In categoryModel.js - [ const connection = require("../config/connection"); ]
+Step 3: In categoryModel.js import connection.js file.
+	const connection = require("../config/connection"); 
 
 Step 4: In controllers folder, create file categoryController.js
 
-Step 5: In categoryController.js - [ const categoryModel = require("../models/categoryModel"); ]
+Step 5: In categoryController.js import categoryModel.js 
+	const categoryModel = require("../models/categoryModel"); 
 
 Step 6: Inside routes folder, create a file - categoryRoute.js
 
-Step 7: Create Route for category
+Step 7: Create Route for category in categoryRoute.js
 	
 	const express = require("express");
 	const router = express.Router();
 
-	const {getCategoryList} = require("../controllers/categoryController");
+	const {getCategoryList} = require("../controllers/categoryController"); // importing categoryController.js
+
 	router.get('/categoryList',getCategoryList);
 
 	module.exports = router;
 
-Step 8: In index.js
+
+Step 8: Code of index.js
 	const express = require("express");
 	const bodyParser = require("body-parser"); 
-	const categoryRoute = require("./routes/categoryRoute");
+	const categoryRoute = require("./routes/categoryRoute"); // importing categoryRoute.js
 
 	const app = express(); 
 	app.use(bodyParser.json());
@@ -51,7 +55,7 @@ Step 8: In index.js
     		console.log("Server is running on port 3000");
 	})
 
-Step 9: In categoryModel.js,
+Step 9: Code of categoryModel.js,
 
 	const connection = require("../config/connection");
 
@@ -73,7 +77,7 @@ Step 9: In categoryModel.js,
 	module.exports = categoryModel;
 
 
-Step 10:- In categoryController.js
+Step 10:- Code of categoryController.js
 
 const categoryModel = require("../models/categoryModel");
 
