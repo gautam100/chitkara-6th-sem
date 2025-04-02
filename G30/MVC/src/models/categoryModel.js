@@ -1,7 +1,6 @@
 const connection = require("../config/connection");
 
 class categoryModel {
-
   static categoryList() {
     return new Promise((resolve, reject) => {
       connection.query("SELECT * FROM master_category", (error, rows) => {
@@ -12,7 +11,7 @@ class categoryModel {
         }
       });
     });
-  } // categoryList
+  } // categoryList end
 
   static createCategory(req) {
     return new Promise((resolve, reject) => {
@@ -29,14 +28,35 @@ class categoryModel {
             if (err) {
               reject(err);
             } else {
-             resolve(row);
+              resolve(row);
             }
           }
         );
       }
     });
-  } // createCategory
+  } // createCategoryend
 
+  static editCategory(req) {
+    return new Promise((resolve, reject) => {
+      let body = req.body;
+      if (!body.id) {
+        reject("Error! Id is missing.");
+      } else {
+        connection.query(
+          `UPDATE master_category SET cate_name = '${body.cate_name}', cate_desc = '${body.cate_desc}', is_enable = 'true', created_on = current_timestamp(), created_by = '${body.created_by}' WHERE id = '${body.id}'`,
+          (err, res) => {
+            if(err){
+              reject("Error! Update Failed.")
+            }else{
+              resolve("Record Successfully Updated.")
+            }
+          }
+        );
+      }
+    });
+  } //modifyCategory end
+
+  static removeCategory(id) {} // removeCategory ends
 } // class end
 
 module.exports = categoryModel;

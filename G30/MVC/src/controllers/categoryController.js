@@ -1,5 +1,6 @@
 const categoryModel = require("../models/categoryModel");
 
+// GET
 const getCategoryList = async (req, resp) => {
   try {
     let categoryData = await categoryModel.categoryList();
@@ -19,6 +20,8 @@ const getCategoryList = async (req, resp) => {
     throw error;
   }
 };
+
+// POST
 const saveCategory = async(req,resp) =>{
   try{
     let insertResult = await categoryModel.createCategory(req);
@@ -35,7 +38,32 @@ const saveCategory = async(req,resp) =>{
   }
 };
 
+// PUT
+const modifyCategory = async(req,resp) =>{
+  try{
+    let insertResult = await categoryModel.editCategory(req);
+    if(!insertResult){
+      return resp
+            .status(500)
+            .json({ msg: "Server Error!" });
+    }else{
+      return resp
+            .status(200)
+            .json({ msg: "Record updated successfully!" });
+    }
+  }catch(error){
+    throw error;
+  }
+};
+
+// Delete
+const deleteCategory = async(req,resp) =>{
+
+};
+
 module.exports = {
   getCategoryList,
-  saveCategory
+  saveCategory,
+  modifyCategory,
+  deleteCategory
 };
