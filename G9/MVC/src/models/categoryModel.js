@@ -51,7 +51,22 @@ class categoryModel {
     });
   } //categoryModify ends
 
-  static categoryDelete() {} //categoryDelete ends
+  static categoryDelete(id) {
+    return new Promise((resolve,reject)=>{
+      if(!id){
+        reject("Error! ID is missing!")
+      }else{
+        connection.query("DELETE FROM master_category WHERE id = "+id,(err,res)=>{
+          if(err){
+            reject(err);
+          }else{
+            resolve(res);
+          }
+        })
+      }
+    });
+
+  } //categoryDelete ends
 } //class ends
 
 module.exports = categoryModel;

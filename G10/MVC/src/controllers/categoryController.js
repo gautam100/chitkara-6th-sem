@@ -86,7 +86,7 @@ const removeCategory = async (req, resp) => {
                     message: "Error in delete operation",
                   });
             }else{
-                return resp.status(200).json({
+                return resp.status(404).json({
                     success: true,
                     message: "Deleted Successfully",
                   });

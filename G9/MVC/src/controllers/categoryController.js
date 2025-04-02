@@ -80,7 +80,33 @@ const modifyCategory = async (req, resp) => {
 };
 
 // DELETE
-const deleteCategory = async (req, resp) => {};
+const deleteCategory = async (req, resp) => {
+  try{
+    let categoryId = req.params.id;
+    console.log(categoryId);
+    if(!categoryId){
+        return resp.status(401).json({
+            success: false,
+            message: "Error! Id is missing.",
+          }); 
+    }else{
+        let delResult = categoryModel.categoryDelete(categoryId);
+        if(!delResult){
+            return resp.status(404).json({
+                success: false,
+                message: "Error in delete operation",
+              });
+        }else{
+            return resp.status(200).json({
+                success: true,
+                message: "Deleted Successfully",
+              });
+        }
+    }
+}catch(error){
+    throw error;
+}
+};
 
 module.exports = {
   getCategoryList,
