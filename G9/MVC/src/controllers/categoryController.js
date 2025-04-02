@@ -24,9 +24,7 @@ const getCategoryList = async (req, resp) => {
 // POST
 const saveCategory = async (req, resp) => {
   try {
-    // Extract category data from request body
     const body = req.body;
-    //console.log(body.cate_name+""+body.cate_desc);
 
     if (!body.cate_name || !body.cate_desc) {
       return resp.status(400).json({
@@ -48,23 +46,37 @@ const saveCategory = async (req, resp) => {
           data: newCategory,
         });
       }
-
-      // Save the category in the database
     }
-
-    
   } catch (error) {
-    console.error(error);
-    return resp.status(500).json({
-      success: false,
-      message: "Server error while saving category",
-    });
+    throw error;
   }
 };
 
 // PUT
 const modifyCategory = async (req, resp) => {
-  
+  try {
+    const categoryData = req.body;
+    if (!categoryData.id) {
+      return resp
+        .status(400)
+        .json({ message: "Category ID is required" });
+    }
+    //const categoryId = categoryData.id;
+    const updatedCategory = await categoryModel.categoryModify(req);
+    if (!updatedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    return resp
+      .status(200)
+      .json({
+        message: "Category updated successfully",
+        data: updatedCategory,
+      });
+  } catch (error) {
+    return resp
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
 };
 
 // DELETE
