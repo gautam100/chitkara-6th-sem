@@ -1,5 +1,5 @@
 {
-  "name": "projectv2",
+  "name": "mvc",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,10 +7,5 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "body-parser": "^1.20.3",
-    "express": "^4.21.2",
-    "mysql2": "^3.13.0"
-  }
+  "description": ""
 }

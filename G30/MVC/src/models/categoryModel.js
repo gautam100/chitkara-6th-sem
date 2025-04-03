@@ -45,10 +45,10 @@ class categoryModel {
         connection.query(
           `UPDATE master_category SET cate_name = '${body.cate_name}', cate_desc = '${body.cate_desc}', is_enable = 'true', created_on = current_timestamp(), created_by = '${body.created_by}' WHERE id = '${body.id}'`,
           (err, res) => {
-            if(err){
-              reject("Error! Update Failed.")
-            }else{
-              resolve("Record Successfully Updated.")
+            if (err) {
+              reject("Error! Update Failed.");
+            } else {
+              resolve("Record Successfully Updated.");
             }
           }
         );
@@ -56,7 +56,24 @@ class categoryModel {
     });
   } //modifyCategory end
 
-  static removeCategory(id) {} // removeCategory ends
+  static removeCategory(id) {
+    return new Promise((resolve, reject) => {
+      if (!id) {
+        reject("Error! Id is missing.");
+      } else {
+        connection.query(
+          `DELETE FROM master_category WHERE id = '${id}'`,
+          (err, res) => {
+            if (err) {
+              reject("Error! delete Failed.");
+            } else {
+              resolve("Record deleted successfully");
+            }
+          }
+        );
+      }
+    });
+  } // removeCategory ends
 } // class end
 
 module.exports = categoryModel;
