@@ -1,27 +1,29 @@
 const connection = require("../config/connection");
 
 class categoryModel {
-
   static categoryList() {
     return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM master_category", (err, result) => {
-        if (err) {
-          reject(err);
+      connection.query("SELECT * FROM master_category", (error, rows) => {
+        if (error) {
+          reject(error);
         } else {
-          resolve(result);
+          resolve(rows);
         }
       });
     });
-  } //getCategoryList Ends
+  } // categoryList end
 
-  static categorySave(req) {
+  static createCategory(req) {
     return new Promise((resolve, reject) => {
       let body = req.body;
+      console.log("In Model");
+      console.log(body);
       if (!body.cate_name) {
-        reject("Mandatory Field is missing!");
+        //return resp.status(400).json({ msg: "Mandatory field is missing!" });
+        reject();
       } else {
         connection.query(
-          `INSERT INTO master_category (cate_name, cate_desc, is_enable, created_on, created_by) VALUES ('${body.cate_name}','${body.cate_desc}','true',CURRENT_TIMESTAMP(),'1')`,
+          `INSERT INTO master_category (cat_name, cat_desc, created_on, created_by) VALUES ('${body.cate_name}','${body.cate_desc}',CURRENT_TIMESTAMP(),'${body.created_by}')`,
           (err, row) => {
             if (err) {
               reject(err);
@@ -32,45 +34,46 @@ class categoryModel {
         );
       }
     });
-  } //categorySave Ends
+  } // createCategoryend
 
-  static categoryModify(req){
+  static editCategory(req) {
     return new Promise((resolve, reject) => {
       let body = req.body;
-      if (!body.cate_name) {
-        reject("Mandatory Field is missing!");
+      if (!body.id) {
+        reject("Error! Id is missing.");
       } else {
         connection.query(
-          `UPDATE master_category SET cate_name = ? , cate_desc = ? , created_by = ? WHERE id = ? `,
-        [body.cate_name,body.cate_desc,body.created_by,body.id],
-          (err, row) => {
+          `UPDATE master_category SET cate_name = '${body.cate_name}', cate_desc = '${body.cate_desc}', is_enable = 'true', created_on = current_timestamp(), created_by = '${body.created_by}' WHERE id = '${body.id}'`,
+          (err, res) => {
             if (err) {
-              reject(err);
+              reject("Error! Update Failed.");
             } else {
-              resolve(row);
+              resolve("Record Successfully Updated.");
             }
           }
         );
-        }
-    })
-  } //categoryModify Ends
-
-  static categoryDelete(id){
-    return new Promise((resolve,reject)=>{
-      if(!id){
-        reject("Error! ID is missing!")
-      }else{
-        connection.query("DELETE FROM master_category WHERE id = "+id,(err,res)=>{
-          if(err){
-            reject(err);
-          }else{
-            resolve(res);
-          }
-        })
       }
     });
-  }//categoryDelete Ends
+  } //modifyCategory end
 
-} //class ends
+  static removeCategory(id) {
+    return new Promise((resolve, reject) => {
+      if (!id) {
+        reject("Error! Id is missing.");
+      } else {
+        connection.query(
+          `DELETE FROM master_category WHERE id = '${id}'`,
+          (err, res) => {
+            if (err) {
+              reject("Error! delete Failed.");
+            } else {
+              resolve("Record deleted successfully");
+            }
+          }
+        );
+      }
+    });
+  } // removeCategory ends
+} // class end
 
 module.exports = categoryModel;

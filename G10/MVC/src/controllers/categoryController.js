@@ -24,17 +24,14 @@ const getCategoryList = async (req, resp) => {
 // POST
 const saveCategory = async (req, resp) => {
   try {
-    let saveResult = categoryModel.categorySave(req);
-    if (!saveResult) {
-      return resp.status(401).json({
-        success: false,
-        message: "Error! Data could not save.",
-      });
+    let insertResult = await categoryModel.createCategory(req);
+    console.log(insertResult);
+    if (insertResult) {
+      return resp
+        .status(200)
+        .json({ msg: "One record inserted successfully!" });
     } else {
-      return resp.status(200).json({
-        success: true,
-        message: "Data saved successfully!",
-      });
+      return resp.status(400).json({ msg: `Error in SQL:- ${err}` });
     }
   } catch (error) {
     throw error;
@@ -42,64 +39,43 @@ const saveCategory = async (req, resp) => {
 };
 
 // PUT
-const modifyCategory = async (req, res) => {
+const modifyCategory = async (req, resp) => {
   try {
-    const categoryData = req.body;
-    if (!categoryData.id) {
-      return res
-        .status(400)
-        .json({ message: "Category ID and data are required" });
+    let insertResult = await categoryModel.editCategory(req);
+    if (!insertResult) {
+      return resp.status(500).json({ msg: "Server Error!" });
+    } else {
+      return resp.status(200).json({ msg: "Record updated successfully!" });
     }
-    //const categoryId = categoryData.id;
-    const updatedCategory = await categoryModel.categoryModify(req);
-    if (!updatedCategory) {
-      return res.status(404).json({ message: "Category not found" });
-    }
-    return res
-      .status(200)
-      .json({
-        message: "Category updated successfully",
-        data: updatedCategory,
-      });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Server error", error: error.message });
+    throw error;
   }
 };
 
-//DELETE
-const removeCategory = async (req, resp) => {
-    try{
-        let categoryId = req.params.id;
-        console.log(categoryId);
-        if(!categoryId){
-            return resp.status(401).json({
-                success: false,
-                message: "Error! Id is missing.",
-              }); 
-        }else{
-            let delResult = categoryModel.categoryDelete(categoryId);
-            if(!delResult){
-                return resp.status(200).json({
-                    success: false,
-                    message: "Error in delete operation",
-                  });
-            }else{
-                return resp.status(404).json({
-                    success: true,
-                    message: "Deleted Successfully",
-                  });
-            }
-        }
-    }catch(error){
-        throw error;
+// Delete
+const deleteCategory = async (req, resp) => {
+  try {
+    let id = req.params.id;
+    if (!id) {
+      return resp.status(404).json({ message: "please enter id" });
+    } else {
+      let rem = await categoryModel.removeCategory(id);
+      if (rem) {
+        return resp
+          .status(200)
+          .json({ msg: "One record deleted successfully!" });
+      } else {
+        return resp.status(400).json({ msg: `Error in SQL:- ${err}` });
+      }
     }
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = {
   getCategoryList,
   saveCategory,
   modifyCategory,
-  removeCategory,
+  deleteCategory,
 };
