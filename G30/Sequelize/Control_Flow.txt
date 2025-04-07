@@ -1,0 +1,106 @@
+Project Folder Structure
+
+1) create  a project folder say "MVC"
+
+2) Open command prompt and run the command - npm init
+
+3) In project folder - create a another folder "src"
+
+4) Inside "src" create below folders-
+ a) controllers
+ b) models
+ c) config
+ d) middleware
+ e) routes
+---------------------------------------------------------------------------------------
+
+Step 1: Move connection.js into config folder
+
+Step 2: In models folder, create a file - categoryModel.js
+
+Step 3: In categoryModel.js import connection.js file.
+	const connection = require("../config/connection"); 
+
+Step 4: In controllers folder, create file categoryController.js
+
+Step 5: In categoryController.js import categoryModel.js 
+	const categoryModel = require("../models/categoryModel"); 
+
+Step 6: Inside routes folder, create a file - categoryRoute.js
+
+Step 7: Create Route for category in categoryRoute.js
+	
+	const express = require("express");
+	const router = express.Router();
+
+	const {getCategoryList} = require("../controllers/categoryController"); // importing categoryController.js
+
+	router.get('/categoryList',getCategoryList);
+
+	module.exports = router;
+
+
+Step 8: Code of index.js
+	const express = require("express");
+	const bodyParser = require("body-parser"); 
+	const categoryRoute = require("./routes/categoryRoute"); // importing categoryRoute.js
+
+	const app = express(); 
+	app.use(bodyParser.json());
+
+	app.use('/api',categoryRoute); 
+
+
+	app.listen(3000,()=>{
+    		console.log("Server is running on port 3000");
+	})
+
+Step 9: Code of categoryModel.js,
+
+	const connection = require("../config/connection");
+
+	class categoryModel{
+	
+	static categoryList(){
+        	return new Promise((resolve, reject) => {
+        	    connection.query("SELECT * FROM master_category", (error, rows) => {
+                	if (error) {
+                    		reject(error);
+                	} else {
+                    		resolve(rows);
+                	}
+            	    });
+        	});
+    	   }//function
+	}// class end
+
+	module.exports = categoryModel;
+
+
+Step 10:- Code of categoryController.js
+
+const categoryModel = require("../models/categoryModel");
+
+const getCategoryList = async (req, resp) => {
+  try {
+    let categoryData = await categoryModel.categoryList();
+    // console.log(categoryData);
+    if(!categoryData){
+        return resp.status(401).json({
+            success:false,
+            message: "Data doesn't exist in table"
+        })
+    }else{
+        return resp.status(200).json({
+            success: true,
+            message: categoryData
+        })
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  getCategoryList,
+};
